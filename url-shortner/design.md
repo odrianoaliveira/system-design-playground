@@ -33,3 +33,25 @@ This document aims to list all requirements, constraints, assumptions in the sco
 
 ![System Architecture Diagram](https://raw.githubusercontent.com/odrianoaliveira/system-design-playground/refs/heads/main/url-shortner/assets/UrlShortner.drawio.png)
 
+### Database decision
+
+- Cassandra is the most suitable database for scalability and availability, with its built-in TTL feature simplifying implementation. 
+- CockroachDB is a great choice for strict consistency needs, albeit at the cost of higher latency and operational complexity. 
+- PostgreSQL can be a fallback for lower-scale implementations, but scaling to billions of URLs will require additional effort and infrastructure investment.
+
+
+| Feature                    | CockroachDB                                   | Cassandra                                  | PostgreSQL (Master-Replica)                                      |
+|----------------------------|-----------------------------------------------|--------------------------------------------|------------------------------------------------------------------|
+| **Consistency**            | Strong (ACID)                                 | Tunable (eventual by default)              | Strong for writes; eventual for replicas                         |
+| **Availability**           | High (handles failover automatically)         | High (no single point of failure)          | Moderate (requires manual failover)                              |
+| **Scalability**            | Horizontal; suited for distributed systems    | Exceptional horizontal scaling             | Limited to vertical scaling of master                            |
+| **Latency**                | Higher for writes                             | Low for writes (eventual consistency)      | Moderate; replica reads are low latency                          |
+| **Query Capabilities**     | Full SQL                                      | Limited CQL                                | Full SQL                                                         |
+| **Write Throughput**       | Moderate                                      | Very high                                  | Limited by master node                                           |
+| **Read Scalability**       | High (distributed)                            | High (distributed)                         | High (replica reads)                                             |
+| **TTL Support**            | Not natively supported; requires custom logic | Native support for TTL at the record level | Requires manual implementation using background jobs or triggers |
+| **Operational Complexity** | Moderate                                      | High for large clusters                    | Low                                                              | 
+
+#### Decision
+
+Cassandra is the most suitable database for scalability and availability, with its built-in TTL feature simplifying implementation.
