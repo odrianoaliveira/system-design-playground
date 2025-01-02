@@ -31,7 +31,7 @@ This document aims to list all requirements, constraints, assumptions in the sco
 4. Database: Where the shorter and original URLs mapping are stored.
 5. Cache: To fast serve frequently accessed URLs.
 
-![System Architecture Diagram](https://raw.githubusercontent.com/odrianoaliveira/system-design-playground/refs/heads/main/url-shortner/assets/UrlShortner.drawio.png)
+![System Architecture Diagram](https://raw.githubusercontent.com/odrianoaliveira/system-design-playground/79e80ddb5ebe91809c662d38c0b90a38d8c5ce11/url-shortner/assets/UrlShortner.drawio.png)
 
 ### Database decision
 
